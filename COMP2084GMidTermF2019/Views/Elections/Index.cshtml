@@ -1,0 +1,66 @@
+﻿@model IEnumerable<COMP2084GMidTermF2019.Models.Election>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Canadian Federal Elections</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Winner
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Majority)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Party.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+            <td>
+                @if (item.Majority.Equals(true))
+                {
+                    <input type="checkbox" checked disabled>
+                }
+                else
+                {
+                    <input type="checkbox" disabled>
+                }
+            </td>
+
+            @if (User.Identity.IsAuthenticated) //Shows the following elements if the user logged in
+            {
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ElectionId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ElectionId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ElectionId">Delete</a>
+                </td>
+            }
+            else
+            {
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.ElectionId">Details</a>
+                </td>
+            }
+
+
+        </tr>
+}
+    </tbody>
+</table>
